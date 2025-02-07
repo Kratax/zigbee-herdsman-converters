@@ -4828,6 +4828,7 @@ const definitions: DefinitionWithExtend[] = [
             '_TZE200_yqgbrdyo',
             '_TZE284_p3dbf6qs',
             '_TZE200_rxq4iti9',
+            '_TZE204_ogx8u5z6',
             '_TZE200_hvaxb2tc' /* model: 'TRV06', vendor: 'AVATTO' */,
             '_TZE284_o3x45p96' /* model: 'TRV06', vendor: 'AVATTO' */,
             '_TZE284_c6wv4xyo' /* model: 'AVATTO_TRV06', vendor: 'AVATTO_TRV06' */,
@@ -8121,7 +8122,7 @@ const definitions: DefinitionWithExtend[] = [
         },
     },
     {
-        fingerprint: tuya.fingerprint('TS0601', ['_TZE204_qasjif9e', '_TZE204_ztqnh5cg']),
+        fingerprint: tuya.fingerprint('TS0601', ['_TZE204_qasjif9e', '_TZE204_ztqnh5cg', '_TZE204_iadro9bf']),
         model: 'ZY-M100-S_2',
         vendor: 'Tuya',
         description: 'Mini human breathe sensor',
@@ -9331,6 +9332,22 @@ const definitions: DefinitionWithExtend[] = [
         configure: async (device, coordinatorEndpoint) => {
             await reporting.bind(device.getEndpoint(1), coordinatorEndpoint, ['genOnOff']);
             device.powerSource = 'Mains (single phase)';
+            // Device advertises itself as Router but is an EndDevice
+            device.type = 'EndDevice';
+            device.save();
+        },
+    },
+    {
+        fingerprint: tuya.fingerprint('TS000F', ['_TZ3218_hdc8bbha']),
+        model: 'QS-Zigbee-SEC01-DC',
+        vendor: 'Tuya',
+        description: 'Mini 1 Gang Zigbee Switch Module',
+        extend: [tuya.modernExtend.tuyaOnOff({switchType: true})],
+        configure: async (device, coordinatorEndpoint) => {
+            await reporting.bind(device.getEndpoint(1), coordinatorEndpoint, ['genOnOff']);
+            device.powerSource = 'Mains (single phase)';
+            // Device advertises itself as Router but is an EndDevice
+            device.type = 'EndDevice';
             device.save();
         },
     },
@@ -14426,6 +14443,13 @@ const definitions: DefinitionWithExtend[] = [
                 [50, 'power_factor', tuya.valueConverter.raw], // "Overall Power Factor" 88 -> 88 %
             ],
         },
+    },
+    {
+        zigbeeModel: ['TS0901'],
+        model: 'TS0901',
+        vendor: 'Tuya',
+        description: 'Battery powered light',
+        extend: [m.battery(), m.light()],
     },
 ];
 
